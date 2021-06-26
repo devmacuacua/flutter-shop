@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 
 class DrawerTile extends StatelessWidget{
 
-  DrawerTile({required this.iconData, required this.title});
+  const DrawerTile({required this.iconData, required this.title, required this.page});
 
   final IconData iconData;
   final String title;
+  final int page;
 
   @override
   Widget build(BuildContext context){
     return InkWell(
       onTap: (){
-
+          debugPrint('toquei $page');
       },
       child: SizedBox(
         height: 60,
