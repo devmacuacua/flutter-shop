@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/common/custom_drawer/custom_drawer.dart';
 import 'package:store/models/page_manager.dart';
-import 'package:store/screens/login/LoginScreen.dart';
+import 'package:store/screens/login/login_screen.dart';
 
 class BaseScreen extends StatelessWidget {
 
