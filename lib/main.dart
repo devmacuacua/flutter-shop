@@ -45,6 +45,29 @@ void main() async{
   //Listar dados na colecao
   DocumentSnapshot doc = await FirebaseFirestore.instance.collection('orders').doc('nome_personalizado').get();
   print(doc.data());
+
+  //Notificacoes...Como monitorar as alteracoes de dados no Firebase
+  FirebaseFirestore.instance.collection('orders').doc('nome_personalizado').snapshots().listen((event) {
+    print(event.data());
+  });
+  print(doc.data());
+
+  //Buscar Lista de Documento
+  //Nao SPNAPSHOT, snapshot quando 'eh unico documento
+  QuerySnapshot qSnapshot = await FirebaseFirestore.instance.collection('orders').get();
+  print(qSnapshot.docs);
+  for(DocumentSnapshot doc in qSnapshot.docs){
+      print(doc.data());
+  }
+
+  //Notificacoes em MAssa...Como monitorar as alteracoes de dados no Firebase
+  FirebaseFirestore.instance.collection('orders').snapshots().listen((event) {
+    for(DocumentSnapshot doc in event.docs) {
+      print(doc.data());
+    }
+  });
+  print(doc.data());
+
 }
 
 
