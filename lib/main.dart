@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:store/screens/base/base_screen.dart';
 
 void main() async{
   runApp(MyApp());
@@ -10,67 +11,7 @@ void main() async{
   await Firebase.initializeApp();
   FirebaseFirestore.instance.collection('users2').add({'full_name': "Francisco Macuacua",  'company': "Free Dev", 'age': 34   });
 
-//add new document data
-   FirebaseFirestore.instance.collection('orders').add(
-      {
-        'price': 199.99,
-        'user': "Francisco Macuacua"
-      }
-  );
-
-   //alter to given state
-  FirebaseFirestore.instance.collection('orders').doc('nome_personalizado').set(
-      {
-        'price': 67.99,
-        'user': "Francisco Macuacua JR"
-      }
-  );
-
-  //Update only given valueattribute
-  FirebaseFirestore.instance.collection('orders').doc('nome_personalizado').update(
-      {
-        'price': 66.99,
-        'user': "Francisco Macuacua JR"
-      }
-  );
-
-  //facilitando a nomenclatura
-  FirebaseFirestore.instance.doc('orders/nome_personalizado').update(
-      {
-        'price': 77.77,
-        'user': "Francisco Macuacua JR"
-      }
-  );
-
-  //Listar dados na colecao
-  DocumentSnapshot doc = await FirebaseFirestore.instance.collection('orders').doc('nome_personalizado').get();
-  print(doc.data());
-
-  //Notificacoes...Como monitorar as alteracoes de dados no Firebase
-  FirebaseFirestore.instance.collection('orders').doc('nome_personalizado').snapshots().listen((event) {
-    print(event.data());
-  });
-  print(doc.data());
-
-  //Buscar Lista de Documento
-  //Nao SPNAPSHOT, snapshot quando 'eh unico documento
-  QuerySnapshot qSnapshot = await FirebaseFirestore.instance.collection('orders').get();
-  print(qSnapshot.docs);
-  for(DocumentSnapshot doc in qSnapshot.docs){
-      print(doc.data());
-  }
-
-  //Notificacoes em MAssa...Como monitorar as alteracoes de dados no Firebase
-  FirebaseFirestore.instance.collection('orders').snapshots().listen((event) {
-    for(DocumentSnapshot doc in event.docs) {
-      print(doc.data());
-    }
-  });
-  print(doc.data());
-
 }
-
-
 
 
 
@@ -79,12 +20,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Maning Moz Store',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Container()
+      home: BaseScreen()
     );
   }
 }
