@@ -8,25 +8,22 @@ class UserManager {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<void> signIn(UserDetail user) async {
+  Future<void> signIn({required UserDetail user, required Function onFail, required Function onSuccess}) async {
 
       try {
         final UserCredential result = await auth.signInWithEmailAndPassword(
             email: user.email, password: user.password);
-        print(result.user!.uid);
+        //print(result.user!.uid);
+        onSuccess();
       }
       on PlatformException catch (e){
-        print(getErrorString(e.code));
+        //print(getErrorString(e.code));
+        onFail(getErrorString(e.code));
       }
       on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
-        }else{
-          print(getErrorString(e.code));
-        }
+         //print(getErrorString(e.code));
+         onFail(getErrorString(e.code));
       }
-
+      
   }
 }
