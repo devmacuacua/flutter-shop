@@ -5,15 +5,14 @@ String getErrorString(String code){
     case 'ERROR_INVALID_EMAIL':
       return 'Seu e-mail é inválido.';
     case 'ERROR_EMAIL_ALREADY_IN_USE':
+    case 'email-already-in-use':
       return 'E-mail já está sendo utilizado em outra conta.';
     case 'ERROR_INVALID_CREDENTIAL':
       return 'Seu e-mail é inválido.';
     case 'ERROR_WRONG_PASSWORD':
-      return 'Sua senha está incorreta.';
     case  'wrong-password':
       return 'Sua senha está incorreta.';
     case 'ERROR_USER_NOT_FOUND':
-      return 'Não há usuário com este e-mail.';
     case 'user-not-found':
       return 'Não há usuário com este e-mail.';
     case 'ERROR_USER_DISABLED':

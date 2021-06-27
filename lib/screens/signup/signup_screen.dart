@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:store/helpers/validator.dart';
 import 'package:store/models/user_detail.dart';
+import 'package:provider/provider.dart';
+import 'package:store/models/user_manager.dart';
 
 class SignUpScreen extends StatelessWidget{
 
@@ -97,7 +99,21 @@ class SignUpScreen extends StatelessWidget{
                               return;
                             }
 
-                            //
+                           context.read<UserManager>().signUp(
+                               user: user,
+                               onSuccess: (){
+                                      debugPrint('sucesso');
+                                      //TODO: POP
+                               },
+                               onFail: (){
+                                    scaffoldKey.currentState!.showSnackBar(
+                                      SnackBar(
+                                          content: Text('Falha ao cadastrar'),
+                                        backgroundColor: Colors.red,
+                                      )
+                                    );
+                                }
+                              );
                         }
                     },
                     child: const Text (
