@@ -25,85 +25,110 @@ class LoginScreen extends StatelessWidget{
               margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: Form(
                   key: formKey,
-                  child: ListView(
-                    padding: const EdgeInsets.all(16),
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      TextFormField(
-                          controller: emailController,
-                          decoration: const InputDecoration(hintText: 'E-mail'),
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                          validator: (email){
-                            if(!emailValid(email!))
-                              return 'Email Nao Valido';
-                            return null;
-                            },
-                        ),
-                      const SizedBox(height: 16,),
-                      TextFormField(
-                        controller: passController,
-                        decoration: const InputDecoration(hintText: 'Palavra-Passe'),
-                        autocorrect: false,
-                        obscureText: true,
-                        validator: (password){
-                          if(password != null && (password.isEmpty || password.length < 6))
-                              return 'Palavra-Passe Invalida';
-                          return null;
-                        },
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: FlatButton(
-                          onPressed: (){
+                  child: Consumer<UserManager>(
+                   builder: (_, userManager, __){
+                     return ListView(
+                       padding: const EdgeInsets.all(16),
+                       shrinkWrap: true,
+                       children: <Widget>[
+                         TextFormField(
+                           controller: emailController,
+                           enabled: !userManager.loading,
+                           decoration: const InputDecoration(hintText: 'E-mail'),
+                           keyboardType: TextInputType.emailAddress,
+                           autocorrect: false,
+                           validator: (email){
+                             if(!emailValid(email!))
+                               return 'Email Nao Valido';
+                             return null;
+                           },
+                         ),
+                         const SizedBox(height: 16,),
+                         TextFormField(
+                           controller: passController,
+                           enabled: !userManager.loading,
+                           decoration: const InputDecoration(hintText: 'Palavra-Passe'),
+                           autocorrect: false,
+                           obscureText: true,
+                           validator: (password){
+                             if(password != null && (password.isEmpty || password.length < 6))
+                               return 'Palavra-Passe Invalida';
+                             return null;
+                           },
+                         ),
+                         //child,
+                         Align(
+                           alignment: Alignment.centerRight,
+                           child: FlatButton(
+                             onPressed: (){
 
-                          },
-                          padding: EdgeInsets.zero,
-                          child: const Text(
-                              'Esqueci a Minha Palavra-passe'
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16,),
-                      SizedBox(
-                        height: 44,
-                        child: RaisedButton(
-                            onPressed: () async {
-                                if(formKey.currentState!.validate()){
+                             },
+                             padding: EdgeInsets.zero,
+                             child: const Text(
+                                 'Esqueci a Minha Palavra-passe'
+                             ),
+                           ),
+                         ),
+                         const SizedBox(height: 16,),
+                         SizedBox(
+                           height: 44,
+                           child: RaisedButton(
+                             onPressed: userManager.loading ? null :  () async {
+                               if(formKey.currentState!.validate()){
 
-                                    context.read<UserManager>().signIn(
-                                      user: UserDetail(
-                                          email:emailController.text,
-                                          password:passController.text
-                                      ),
-                                      onFail: (e){
-                                        //print(e);
-                                        scafoldKey.currentState!.showSnackBar(
-                                          SnackBar(
-                                              content: Text('Falha ao Entrar : $e'),
-                                            backgroundColor: Colors.red,
-                                          )
-                                        );
-                                      },
-                                      onSuccess: (){
-                                        print('sucesso');
-                                        //TODO: Fechar a tela de login
-                                      }
-                                    );
-                                }
-                            },
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          child: const Text(
-                            'Enter',
-                            style: TextStyle(
-                              fontSize: 18
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                                 userManager.signIn(
+                                     user: UserDetail(
+                                         email:emailController.text,
+                                         password:passController.text
+                                     ),
+                                     onFail: (e){
+                                       //print(e);
+                                       scafoldKey.currentState!.showSnackBar(
+                                           SnackBar(
+                                             content: Text('Falha ao Entrar : $e'),
+                                             backgroundColor: Colors.red,
+                                           )
+                                       );
+                                     },
+                                     onSuccess: (){
+                                       print('sucesso');
+                                       //TODO: Fechar a tela de login
+                                     }
+                                 );
+                               }
+                             },
+                             color: Theme.of(context).primaryColor,
+                             disabledColor: Theme.of(context).primaryColor
+                                 .withAlpha(100),
+                             textColor: Colors.white,
+                             child: userManager.loading ?
+                             CircularProgressIndicator(
+                               valueColor: AlwaysStoppedAnimation(Colors.white),
+                             ) :
+                             const Text(
+                               'Enter',
+                               style: TextStyle(
+                                   fontSize: 18
+                               ),
+                             ),
+                           ),
+                         )
+                       ],
+                     );
+                   },
+//                   child: Align(
+//                      alignment: Alignment.centerRight,
+//                      child: FlatButton(
+//                        onPressed: (){
+//
+//                        },
+//                        padding: EdgeInsets.zero,
+//                        child: const Text(
+//                            'Esqueci a Minha Palavra-passe'
+//                        ),
+//                      ),
+//                    ),
+                  )
                 ),
             )
           ),
