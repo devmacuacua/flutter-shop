@@ -2,14 +2,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:store/models/user_manager.dart';
 import 'package:store/screens/base/base_screen.dart';
 
 void main() async{
-  runApp(MyApp());
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseFirestore.instance.collection('users2').add({'full_name': "Francisco Macuacua",  'company': "Free Dev", 'age': 34   });
+
+//  QuerySnapshot qSnapshot = await FirebaseFirestore.instance.collection('orders').get();
+//  print(qSnapshot.docs);
+//  for(DocumentSnapshot doc in qSnapshot.docs){
+//    print(doc.data());
+//  }
+
+  runApp(MyApp());
 
 }
 
@@ -19,18 +27,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Maning Moz Store',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: const Color.fromARGB(255, 4, 125, 141),
-        scaffoldBackgroundColor: const Color.fromARGB(255, 4, 125, 141),
-        appBarTheme: const AppBarTheme(
-          elevation: 0
+    return Provider(
+      create: (_)=>UserManager(),
+      child: MaterialApp(
+        title: 'Maning Moz Store',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: const Color.fromARGB(255, 4, 125, 141),
+          scaffoldBackgroundColor: const Color.fromARGB(255, 4, 125, 141),
+          appBarTheme: const AppBarTheme(
+            elevation: 0
+          ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        home: BaseScreen()
       ),
-      home: BaseScreen()
     );
   }
 }
