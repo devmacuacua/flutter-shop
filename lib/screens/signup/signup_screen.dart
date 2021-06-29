@@ -9,7 +9,7 @@ class SignUpScreen extends StatelessWidget{
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final UserDetail user =UserDetail(email: '', name: '', password: '', confirmPassword: '');
+  final UserDetail user =UserDetail(email: '', name: '', password: '', confirmPassword: '', id: '');
 
   @override
   Widget build(BuildContext context){

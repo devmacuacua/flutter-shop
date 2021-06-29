@@ -93,7 +93,8 @@ class LoginScreen extends StatelessWidget{
                                          email:emailController.text,
                                          password:passController.text,
                                          name: '',
-                                         confirmPassword: ''
+                                         confirmPassword: '',
+                                         id: ''
                                      ),
                                      onFail: (e){
                                        //print(e);
